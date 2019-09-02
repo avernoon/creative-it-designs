@@ -34,7 +34,7 @@ layout: default
       <div class="row mt-5">
 
         <div class="col-12 mb-5 order-2">
-          <form action="https://usebasin.com/f/ce01e7a74853" method="post">
+          <form action="https://usebasin.com/f/ce01e7a74853" method="post" id="my-contact-form">
             <div class="row">
               <div class="col-md-6 form-group">
                 <label for="name">Name</label>
@@ -53,7 +53,7 @@ layout: default
             <div class="row">
               <div class="col-md-12 form-group">
                 <label for="email">Email</label>
-                <input name="email" type="email" id="email" class="form-control ">
+                <input name="email" type="email" id="email" class="form-control " required>
               </div>
             </div>
             <div class="row">
@@ -67,6 +67,7 @@ layout: default
                 <input type="submit" value="Send Message" class="btn btn-outline-black px-3 py-3">
               </div>
             </div>
+            <div id="form-message"></div>
           </form>
         </div>
 
@@ -165,5 +166,27 @@ layout: default
   </div> -->
   <!-- END .block-4 -->
   <!-- </div> -->
-  
+
+  <!-- For AJAX handling of form submissions -->
+  <script type="text/javascript">
+    var form = document.getElementById("my-contact-form");
+    var formMessage = document.getElementById("form-message");
+    form.onsubmit = function(event) {
+    event.preventDefault();
+    var formData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", form.action, true);
+    xhr.onload = function(e) {
+    console.log(xhr);
+    var response = JSON.parse(xhr.response);
+    if (xhr.status === 200) {
+    formMessage.innerHTML = "Success";
+    } else {
+    formMessage.innerHTML = "Error: " + response.error;
+    }
+    };
+    xhr.send(formData);
+    };
+    </script>
+
 <!-- End Jekyll Content -->
